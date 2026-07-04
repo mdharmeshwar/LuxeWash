@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom transitions and styling */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #060709;
+    color: #e2e8f0;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Removed background-attachment: fixed — triggers full repaint every scroll frame */
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(225, 29, 72, 0.05) 0px, transparent 50%);
+    overscroll-behavior: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.9;
+    cursor: pointer;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+
+  input[type="date"]::-webkit-datetime-edit {
+    color: #ffffff;
+  }
+}
+
+/* Carbon Fiber Hex Grid */
+.carbon-grid {
+  background-image: 
+    linear-gradient(45deg, #090a0f 25%, transparent 25%), 
+    linear-gradient(-45deg, #090a0f 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #090a0f 75%), 
+    linear-gradient(-45deg, transparent 75%, #090a0f 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-color: #040507;
+}
+
+/* Glass Dashboard Panel */
+.glass-panel {
+  background: rgba(11, 12, 16, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.glass-panel-cyan {
+  background: rgba(10, 12, 16, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(225, 29, 72, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(225, 29, 72, 0.03);
+}
+
+.glass-panel-gold {
+  background: rgba(10, 12, 16, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(225, 29, 72, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(225, 29, 72, 0.02);
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #040507;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1c1d24;
+  border-radius: 9999px;
+  border: 1px solid #040507;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626; /* Accent Red */
+}
+
+/* GPU compositing promotions for animated elements */
+.animate-ping, .animate-pulse, .animate-spin {
+  will-change: transform, opacity;
+}
+
+/* Smooth scroll snapping for main content transitions */
+.tab-content {
+  will-change: opacity;
+}
+
+/* Elegant red dual ambient glow */
+.radial-glow {
+  background: radial-gradient(circle 800px at 50% -100px, rgba(225, 29, 72, 0.08), transparent 85%);
+}
+
+.radial-glow-gold {
+  background: radial-gradient(circle 600px at 50% 100%, rgba(225, 29, 72, 0.05), transparent 85%);
+}
+
+/* Keyboard navigable focus ring style */
+*:focus-visible {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+/* Animated speedline active shine */
+@keyframes speedline {
+  0% { transform: translateX(-150%) skewX(-15deg); }
+  50% { transform: translateX(150%) skewX(-15deg); }
+  100% { transform: translateX(150%) skewX(-15deg); }
+}
+
+.speedline-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.speedline-effect::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, transparent, rgba(225, 29, 72, 0.15), transparent);
+  transform: translateX(-150%);
+}
+
+.speedline-effect:hover::after {
+  animation: speedline 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  will-change: transform;
+}
+
+/* Neon pulsate styling */
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(225, 29, 72, 0.2), 0 0 10px rgba(225, 29, 72, 0.1); }
+  50% { box-shadow: 0 0 15px rgba(225, 29, 72, 0.4), 0 0 25px rgba(225, 29, 72, 0.2); }
+}
+
+.neon-pulse-cyan {
+  animation: neonPulse 2s infinite alternate;
+}
+
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}

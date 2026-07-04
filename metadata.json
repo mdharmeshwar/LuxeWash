@@ -1,0 +1,6 @@
+{
+  "name": "LuxeWash",
+  "description": "An enterprise-grade luxury car wash appointment system and Express API console",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
