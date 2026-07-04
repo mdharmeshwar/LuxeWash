@@ -33,7 +33,6 @@ src/
     ui/
 server.ts
 appointments.json
-render.yaml
 ```
 
 ## Local Development
@@ -70,40 +69,67 @@ Appointments are stored in `appointments.json` by default.
 
 For local development, this keeps setup simple. For hosted environments, the app can store the same file in a mounted persistent disk by setting the `DATA_DIR` environment variable.
 
-## Deploying to Render
+## Deploying to Render on the Free Plan
 
-This repository is ready for Render with a `render.yaml` blueprint.
+This project can be deployed on Render as a free **Web Service**.
 
-### Why Render works well here
+### Important note about storage
 
-This app writes booking data to disk. On Render, local files are ephemeral by default, so a persistent disk is needed to keep appointments after restarts and deploys.
+This app currently stores bookings in `appointments.json`.
 
-Render docs:
+On Render's free plan, the filesystem is ephemeral. That means the app can run, but any appointment data may be lost after a restart, rebuild, or redeploy.
 
-- Blueprint spec: https://render.com/docs/blueprint-spec
-- Persistent disks: https://render.com/docs/disks
-- Node + Express deploy guide: https://render.com/docs/deploy-node-express-app
+That is fine for:
 
-### Render setup
+- demos
+- practice
+- UI review
+- portfolio use
+
+It is not reliable for long-term persistent booking data.
+
+### Manual Render setup
 
 1. Push this repository to GitHub.
-2. In Render, choose **New +** -> **Blueprint**.
-3. Connect the GitHub repository.
-4. Render will detect `render.yaml`.
-5. Create the service and let Render provision the persistent disk.
+2. In Render, click **New +**.
+3. Choose **Web Service**.
+4. Connect the GitHub repository.
+5. Select the `main` branch.
+6. Use these settings:
+
+- Runtime: `Node`
+- Build Command:
+
+```bash
+npm install --include=dev && npm run build
+```
+
+- Start Command:
+
+```bash
+NODE_ENV=production npm start
+```
+
+### Environment settings
+
+Do not set `NODE_ENV=production` in the Render environment variable panel for the free-plan build step.
+
+If needed, add:
+
+- `NPM_CONFIG_PRODUCTION=false`
+
+This makes sure Render installs `devDependencies` like `vite` and `esbuild`, which are required for the build command.
+
+### Health check
+
+Use:
+
+- `/healthz`
 
 ### Render runtime details
 
-- build command: `npm run build`
-- start command: `npm start`
-- health check path: `/healthz`
-- persistent disk mount path: `/var/data`
-
-The app uses:
-
-- `PORT` from Render automatically
-- `NODE_ENV=production`
-- `DATA_DIR=/var/data`
+- `PORT` is provided automatically by Render
+- `NODE_ENV=production` is applied in the start command
 
 ## API Overview
 
@@ -126,4 +152,5 @@ The app uses:
 ## Notes
 
 - The current persistence model is file-based for simplicity.
-- For a larger production deployment, moving appointments into Postgres would be the natural next step.
+- On Render free plan, appointment data is not durable.
+- For a more production-friendly free deployment, moving appointments into Supabase, Neon, or another hosted database would be the natural next step.
